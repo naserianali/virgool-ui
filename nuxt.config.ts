@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
-  devtools: {enabled: false},
+  devtools: {enabled: true},
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     '@formkit/auto-animate',
     'shadcn-nuxt',
     'nuxt-swiper',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@nuxt/icon'
   ],
   tailwindcss: {
     viewer: {endpoint: '/_tailwind', exportViewer: true},
@@ -17,5 +18,11 @@ export default defineNuxtConfig({
   shadcn: {
     prefix: '',
     componentDir: './components/ui'
+  },
+  icon: {},
+  runtimeConfig: {
+    public: {
+      apiBase: "http://localhost:3000"
+    }
   }
 })

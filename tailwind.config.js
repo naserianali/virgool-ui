@@ -13,6 +13,9 @@ module.exports = {
                 "2xl": "1400px",
             },
         },
+        fontFamily: {
+            vazir: ["Vazirmatn FD", "sans-serif"],
+        },
         extend: {
             colors: {
                 border: "hsl(var(--border))",
