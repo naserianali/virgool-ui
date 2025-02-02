@@ -10,7 +10,8 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     'nuxt-swiper',
     '@nuxtjs/color-mode',
-    '@nuxt/icon'
+    '@nuxt/icon',
+    '@vee-validate/nuxt'
   ],
   tailwindcss: {
     viewer: {endpoint: '/_tailwind', exportViewer: true},
@@ -22,7 +23,7 @@ export default defineNuxtConfig({
   icon: {},
   runtimeConfig: {
     public: {
-      apiBase: "http://localhost:3000"
+      apiBase: "http://localhost:5000"
     }
   }
 })

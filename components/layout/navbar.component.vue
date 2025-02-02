@@ -28,7 +28,7 @@
           </NuxtLink>
         </button>
         <button class="text-sm bg-blue-500 rounded-xl w-fit px-4 py-1 text-white font-extrabold">
-          <NuxtLink to="/login">
+          <NuxtLink to="/register">
             ثبت نام
           </NuxtLink>
         </button>

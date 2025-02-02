@@ -1,42 +1,17 @@
 <script setup lang="ts">
-
-enum AuthTypeEnum {
-  Login = 'login',
-  Register = 'register',
-}
-
-enum AuthMethodEnum {
-  Phone = "phone",
-  Email = "email",
-  Username = "username"
-}
-
-interface IDate {
-  title: string;
-  link: {
-    text: string;
-    to: string;
-  },
-  type: AuthTypeEnum;
-}
-
-interface IProps<T> {
-  data: T;
-}
-
-interface IPayload {
-  username: string;
-  type: AuthTypeEnum,
-  method: AuthMethodEnum,
-}
+import {AuthMethodEnum, type IDate, type IPayload, type IProps} from "~/comons/types/auth.type";
+import {toast} from "vue-sonner";
+import {z} from "zod";
+import {useForm, useField} from 'vee-validate';
 
 const {apiBase} = useRuntimeConfig().public;
 const props = defineProps<IProps<IDate>>();
 const data = props.data;
-const username = ref<string>("");
+const username = ref<string>("")
+
 const method = computed((): AuthMethodEnum => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^09\d{9}$/; // Ensures the number starts with '09' and is exactly 11 digits long
+  const phoneRegex = /^09\d{9}$/;
 
   if (emailRegex.test(username.value)) {
     return AuthMethodEnum.Email;
@@ -46,18 +21,45 @@ const method = computed((): AuthMethodEnum => {
     return AuthMethodEnum.Username;
   }
 });
-const handleSubmit = () => {
+
+const {validate} = useForm({
+  validationSchema: {
+    username: "required",
+  }
+})
+
+const handleSubmit = async () => {
+  const validator = await valida
+  te();
   try {
-    const url = apiBase + '/user-existence';
+    const url = apiBase + '/auth/user-existence';
     const payload: IPayload = {
-      method : method.value,
-      username : username.value,
+      method: method.value,
+      username: username.value, // Use the actual value here
       type: data.type,
+    };
+    const response = await $fetch(url, {
+      method: 'POST',
+      body: payload,
+      headers: {
+        'Content-Type': 'application/json',
+        "Accept": "application/json",
+      }
+    });
+    console.log(response);
+  } catch (error: any) {
+    console.log(error.data);
+    if (Array.isArray(error.data.message)) {
+      error.data.message.map((item: string) => {
+        toast.error(item, {
+          position: "bottom-left",
+        });
+      });
+    } else {
+      toast.error(error.data.message, {
+        position: "bottom-left"
+      });
     }
-    console.log(payload)
-    // const response = $fetch(`${url}/user-existence`)
-  } catch (error) {
-    console.error(error);
   }
 }
 </script>
@@ -68,7 +70,7 @@ const handleSubmit = () => {
       {{ data.title }}
     </span>
     <p class="my-4 text-neutral-600">نام کاربری، پست الکترونیک یا شماره موبایل خود را وارد کنید</p>
-    <form class="w-full" v-on:submit.prevent="handleSubmit">
+    <form class="w-full" v-on:submit.prevent="onSubmit">
       <label class="rounded-2xl p-2 shadow-md w-full flex">
         <input v-model="username" class="px-1 w-full focus:outline-none" type="text"
                placeholder="نام کاربری، پست الکترونیک یا شماره موبایل">
