@@ -5,11 +5,15 @@ const route = useRoute();
 const isLogin = computed(() => {
   return route.name;
 })
+const isVerify = computed(() => {
+  return route.name === "Verify"
+})
 </script>
 
 <template>
   <div class="font-vazir flex flex-wrap w-full h-screen" dir="rtl">
-    <div class="md:w-8/12 w-full md:h-full h-2/6 bg-gradient-to-r from-sky-800 via-sky-600 to-blue-400 relative">
+    <div class="w-full md:h-full h-2/6 bg-gradient-to-r from-sky-800 via-sky-600 to-blue-400 relative"
+         :class="isVerify ? 'md:w-4/12' : 'md:w-8/12'">
       <div class="flex h-full items-center justify-center flex-col">
         <NuxtLink to="/" class="md:mb-16">
           <img class="size-24" src="https://static.virgool.io/images/logo-bg.svg" alt="virgool">
@@ -37,7 +41,8 @@ const isLogin = computed(() => {
       </div>
       <FooterComponent class="w-full absolute bottom-8 px-10"/>
     </div>
-    <div class="md:w-4/12 w-full md:h-full h-4/6">
+    <div class="w-full md:h-full h-4/6"
+         :class="isVerify ? 'md:w-8/12' :'md:w-4/12'">
       <slot/>
     </div>
   </div>

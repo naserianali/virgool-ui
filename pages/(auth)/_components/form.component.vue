@@ -1,41 +1,47 @@
 <script setup lang="ts">
 import {AuthMethodEnum, type IDate, type IPayload, type IProps} from "~/comons/types/auth.type";
 import {toast} from "vue-sonner";
+import {toTypedSchema} from "@vee-validate/zod";
 import {z} from "zod";
-import {useForm, useField} from 'vee-validate';
+import {useAuthStore} from "~/store/auth.store";
 
 const {apiBase} = useRuntimeConfig().public;
 const props = defineProps<IProps<IDate>>();
 const data = props.data;
-const username = ref<string>("")
-
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phoneRegex = /^09\d{9}$/;
+const isLoading = ref<boolean>(false);
+const authStore = useAuthStore();
+const router = useRouter();
+let schema = toTypedSchema(
+    z.object({
+      username: z.string({
+        message: "پر کردن این فیلد اجباری هست",
+      })
+    })
+)
+const {handleSubmit, errors, resetForm} = useForm({
+  validationSchema: schema
+})
+const {value: username} = useField<string>("username")
 const method = computed((): AuthMethodEnum => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^09\d{9}$/;
-
-  if (emailRegex.test(username.value)) {
+  if (username.value == undefined)
+    return AuthMethodEnum.Phone;
+  if (emailRegex.test(username?.value)) {
     return AuthMethodEnum.Email;
-  } else if (phoneRegex.test(username.value)) {
+  } else if (phoneRegex.test(username?.value)) {
     return AuthMethodEnum.Phone;
   } else {
     return AuthMethodEnum.Username;
   }
 });
-
-const {validate} = useForm({
-  validationSchema: {
-    username: "required",
-  }
-})
-
-const handleSubmit = async () => {
-  const validator = await valida
-  te();
+const onSubmit = handleSubmit(async (values) => {
+  isLoading.value = true;
   try {
     const url = apiBase + '/auth/user-existence';
     const payload: IPayload = {
       method: method.value,
-      username: username.value, // Use the actual value here
+      username: values.username,
       type: data.type,
     };
     const response = await $fetch(url, {
@@ -44,11 +50,19 @@ const handleSubmit = async () => {
       headers: {
         'Content-Type': 'application/json',
         "Accept": "application/json",
-      }
+      },
+      credentials: 'include',
     });
-    console.log(response);
+    if (response) {
+      authStore.setAuthData({
+        method: method.value,
+        username: payload.username,
+      })
+      console.log(response)
+      resetForm();
+      await router.push('/verify')
+    }
   } catch (error: any) {
-    console.log(error.data);
     if (Array.isArray(error.data.message)) {
       error.data.message.map((item: string) => {
         toast.error(item, {
@@ -60,8 +74,10 @@ const handleSubmit = async () => {
         position: "bottom-left"
       });
     }
+  } finally {
+    isLoading.value = false;
   }
-}
+})
 </script>
 
 <template>
@@ -71,16 +87,25 @@ const handleSubmit = async () => {
     </span>
     <p class="my-4 text-neutral-600">نام کاربری، پست الکترونیک یا شماره موبایل خود را وارد کنید</p>
     <form class="w-full" v-on:submit.prevent="onSubmit">
-      <label class="rounded-2xl p-2 shadow-md w-full flex">
-        <input v-model="username" class="px-1 w-full focus:outline-none" type="text"
+      <label class="rounded-2xl p-2 shadow-md w-full flex relative">
+        <input v-model="username" class="px-1 w-full focus:outline-none text-end placeholder:text-start" type="text"
                placeholder="نام کاربری، پست الکترونیک یا شماره موبایل">
+        <span class="absolute -bottom-6 text-xs text-red-600">
+          {{ errors?.username }}
+        </span>
       </label>
       <div class="w-full mt-6">
         <button
+            :disabled="isLoading"
             class="md:w-fit w-full  ms-auto text-sm text-white bg-sky-700 px-4 py-2 rounded-2xl flex items-center gap-1.5">
             <span class="mx-auto flex items-center gap-1.5">
-              {{ data.title }}
-              <Icon name="material-symbols:arrow-back-ios-new"/>
+              <template v-if="!isLoading">
+                  {{ data.title }}
+                  <Icon name="material-symbols:arrow-back-ios-new"/>
+              </template>
+              <template v-else>
+                <Icon class="size-5 animate-spin" name="mdi:loading"/>
+              </template>
             </span>
         </button>
       </div>

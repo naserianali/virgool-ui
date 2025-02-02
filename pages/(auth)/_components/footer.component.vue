@@ -1,11 +1,14 @@
 <script setup lang="ts">
-
+const route = useRoute()
+const isVerify = computed(() => {
+  return route.name === "Verify"
+})
 </script>
 
 <template>
   <div class="md:flex hidden justify-between text-white/80 text-sm">
     <p>© تمام حقوق برای ویرگول محفوظ است.</p>
-    <div class="flex gap-4 items-center">
+    <div v-if="!isVerify" class="flex gap-4 items-center">
       <NuxtLink to="/">
         صفحه اصلی
       </NuxtLink>
