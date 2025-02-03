@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import FormComponent from "../_components/form.component.vue"
 import {AuthTypeEnum} from "~/comons/types/auth.type";
-import FooterComponent from "../_components/footer.component.vue"
 
 definePageMeta({
   layout: "auth-layout"

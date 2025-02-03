@@ -6,7 +6,7 @@ const isLogin = computed(() => {
   return route.name;
 })
 const isVerify = computed(() => {
-  return route.name === "Verify"
+  return route.name === "Verify" || route.name === "complete-profile"
 })
 </script>
 

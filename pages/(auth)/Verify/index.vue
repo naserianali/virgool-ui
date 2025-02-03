@@ -8,7 +8,7 @@ import {
   PinInputInput,
 } from '@/components/ui/pin-input';
 import {useAuthStore} from "~/store/auth.store";
-import {AuthMethodEnum} from "../../../comons/types/auth.type";
+import {AuthMethodEnum, AuthTypeEnum} from "@/comons/types/auth.type";
 
 definePageMeta({
   layout: "auth-layout",
@@ -20,11 +20,24 @@ if (!authStore.username || !authStore.method) router.back()
 const {apiBase} = useRuntimeConfig().public;
 const {resetForm} = useForm();
 const {value: otp} = useField<string[]>("otp")
+const token = useCookie("accessToken", {
+  maxAge: 30 * 24 * 60 * 60,
+  secure: false,
+  httpOnly: false,
+  sameSite: "lax",
+  path: '/'
+})
+
+interface IVerify {
+  accessToken: string;
+  message: string;
+}
+
 const verifyCode = async (e: string[]) => {
   isLoading.value = true;
   try {
     const url = apiBase + '/auth/check-code';
-    const response = await $fetch(url, {
+    const response = await $fetch<IVerify>(url, {
       method: "POST",
       body: {
         code: otp.value?.join("")
@@ -32,8 +45,15 @@ const verifyCode = async (e: string[]) => {
       credentials: 'include'
     })
     if (response) {
+      token.value = response.accessToken
+      toast.success(response.message);
+      console.log(authStore.type)
+      if (authStore.type === AuthTypeEnum.Login)
+        await router.push('/')
+      else
+        await router.push('/complete-profile')
       authStore.clearAuthData();
-      resetForm()
+      resetForm();
     }
   } catch (error: any) {
     if (Array.isArray(error.data.message)) {

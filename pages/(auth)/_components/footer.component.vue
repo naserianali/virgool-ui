@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const isVerify = computed(() => {
-  return route.name === "Verify"
+  return route.name === "Verify" || route.name === "complete-profile"
 })
 </script>
 

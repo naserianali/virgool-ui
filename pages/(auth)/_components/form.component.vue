@@ -54,10 +54,11 @@ const onSubmit = handleSubmit(async (values) => {
       credentials: 'include',
     });
     if (response) {
-      authStore.setAuthData({
+      await authStore.setAuthData({
         method: method.value,
         username: payload.username,
-      })
+        type: payload.type,
+      });
       console.log(response)
       resetForm();
       await router.push('/verify')
