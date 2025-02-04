@@ -18,11 +18,15 @@ const handleFile = (e: any) => {
 const {apiBase} = useRuntimeConfig().public
 const updateProfile = async () => {
   try {
-    const token = getCookie("accessToken");
+    const token = useCookie("accessToken").value;
     const url = `${apiBase}/user/profile`
     const formData = new FormData();
     if (nickname.value) formData.append("nickname", nickname.value)
-    if (profile.value) formData.append("image", profile.value)
+    if (profile.value instanceof File) {
+      formData.append("image", profile.value);
+    } else if (profile.value instanceof FileList && profile.value.length > 0) {
+      formData.append("image", profile.value[0]);
+    }
     const response = await $fetch(url, {
       method: "PUT",
       headers: {

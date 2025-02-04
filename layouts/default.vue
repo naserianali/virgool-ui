@@ -3,7 +3,7 @@ import {Toaster} from "vue-sonner";
 </script>
 
 <template>
-  <div dir="rtl">
+  <div dir="rtl" class="font-vazir">
     <layout-navbar-component/>
     <slot/>
     <Toaster/>
