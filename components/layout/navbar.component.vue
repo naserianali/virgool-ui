@@ -7,7 +7,7 @@
       <ul>
         <li>
           <NuxtLink to="/">
-            <img src="https://static.virgool.io/images/app/logo.webp?width=50" alt="virgool">
+            <img class="size-12" src="https://static.virgool.io/images/app/logo.webp?width=50" alt="virgool">
           </NuxtLink>
         </li>
       </ul>

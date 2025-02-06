@@ -33,6 +33,7 @@
     "@vee-validate/nuxt": "^4.15.0",
     "@vueuse/nuxt": "^12.5.0",
     "nuxt-swiper": "^2.0.0",
+    "pinia-plugin-persistedstate": "^4.2.0",
     "shadcn-nuxt": "^0.11.3"
   }
 }

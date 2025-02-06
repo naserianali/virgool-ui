@@ -54,7 +54,7 @@ const onSubmit = handleSubmit(async (values) => {
       credentials: 'include',
     });
     if (response) {
-      await authStore.setAuthData({
+      authStore.setAuthData({
         method: method.value,
         username: payload.username,
         type: payload.type,
