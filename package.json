@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@radix-icons/vue": "^1.0.0",
+    "@tinymce/tinymce-vue": "^5.1.1",
     "@vee-validate/zod": "^4.15.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

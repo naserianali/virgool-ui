@@ -6,9 +6,14 @@ const isSidebarOpen = ref<boolean>(sidebarStore.isSidebarOpen);
 const toggleSidebar = (): void => {
   isSidebarOpen.value = !isSidebarOpen.value;
   sidebarStore.setSidebarData({
-    isSidebarOpen : isSidebarOpen.value
+    isSidebarOpen: isSidebarOpen.value
   });
 }
+const route = useRoute();
+const currentPath = ref<string>(route.path)
+watch(() => route.path, (newPath) => {
+  currentPath.value = newPath;
+});
 </script>
 
 <template>
@@ -32,10 +37,12 @@ const toggleSidebar = (): void => {
           class="relative before:content-[''] before:absolute before:-bottom-2
          before:h-0.5 before:bg-sky-700 before:transition-all before:duration-300 before:ease-in-out
          hover:before:w-full"
-          :class="isSidebarOpen
-          ? 'before:start-0-0 before:w-1/6'
-          : 'before:start-1/2 before:w-4 before:translate-x-1/2 hover:before:w-full'">
-        <NuxtLink class="flex items-center gap-1.5" to="/">
+          :class="[
+        isSidebarOpen ? 'before:start-0 before:w-1/6'
+                  : 'before:start-1/2 before:w-4 before:translate-x-1/2 hover:before:w-full',
+        currentPath === '/dashboard' ? 'before:w-full' : ''
+        ]">
+        <NuxtLink class="flex items-center gap-1.5" to="/dashboard">
           <Icon name="mdi:home-outline"
                 class="size-5"
                 :class="!isSidebarOpen && 'mx-auto size-8'"/>
@@ -48,15 +55,17 @@ const toggleSidebar = (): void => {
           class="relative before:content-[''] before:absolute before:-bottom-2
          before:h-0.5 before:bg-sky-700 before:transition-all before:duration-300 before:ease-in-out
          hover:before:w-full"
-          :class="isSidebarOpen
-          ? 'before:start-0 before:w-1/6'
-          : 'before:start-1/2 before:w-4 before:translate-x-1/2 hover:before:w-full'">
-        <NuxtLink class="flex items-center gap-1.5" to="/">
+          :class="[
+        isSidebarOpen ? 'before:start-0 before:w-1/6'
+                  : 'before:start-1/2 before:w-4 before:translate-x-1/2 hover:before:w-full',
+        currentPath === '/dashboard/post' ? 'before:w-full' : ''
+        ]">
+        <NuxtLink class="flex items-center gap-1.5" to="/dashboard/post">
           <Icon name="mdi:playlist-edit"
                 class="size-5"
                 :class="!isSidebarOpen && 'mx-auto size-8'"/>
           <span v-if="isSidebarOpen">
-            صفحه اصلی
+            پست ها
           </span>
         </NuxtLink>
       </li>
