@@ -50,7 +50,7 @@ await getProfile()
 
 <template>
   <div class="h-screen w-full mx-auto self-center">
-    <div v-if="profile" class="border p-2 rounded-xl w-9/12 mx-auto h-3/4 shadow">
+    <div  class="border p-2 rounded-xl w-9/12 mx-auto h-3/4 shadow">
       <ProfileBannerComponent :profile="profile"/>
       <div class="flex w-full justify-between">
         <ProfileStatsComponent v-if="user" title="دنبال کننده ها" :amount="user.followers"/>

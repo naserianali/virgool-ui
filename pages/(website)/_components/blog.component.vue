@@ -52,7 +52,7 @@ const data = await useFetch<IBlogResponse>(`${apiBase}/blog`);
     <div class="container w-8/12">
       <div v-if="data.data.value" class="flex flex-col mb-16" v-for="item in data.data.value.blogs">
         <div class="flex gap-2 text-xs mb-3">
-          <p>{{ item.author.profile.nickname }}</p>
+          <p>{{ item.author?.profile?.nickname ?? "اسمی انتخاب نشده!" }}</p>
           <p>13 دقیقه پیش</p>
         </div>
         <div class="flex justify-between gap-2">
@@ -61,7 +61,7 @@ const data = await useFetch<IBlogResponse>(`${apiBase}/blog`);
             <p class="text-sm mb-3">{{ item.description }}</p>
           </div>
           <div class="w-6/12">
-            <img  class="size-32 mx-auto object-cover bg-black/5" v-if="item.image" :src="item.image.src" :alt="item.image.alt">
+            <img  class="size-32 ms-auto object-cover bg-black/5" v-if="item.image" :src="item.image.src" :alt="item.image.alt">
           </div>
         </div>
         <div class="flex justify-between mt-8">

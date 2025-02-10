@@ -39,8 +39,9 @@ const handleBanner = async (e: any) => {
       </label>
     </form>
     <label for="file" class="w-full h-full flex items-center justify-center">
-      <img class="h-full w-full object-cover z-10" v-if="url || profile.bgImage"
-           :src="url ? url : 'http://localhost:5000/'+ profile.bgImage" alt="banner">
+      <img v-if="!url && profile" :src="'http://localhost:5000/'+ profile.bgImage" alt="">
+      <img v-else-if="url" class="h-full w-full object-cover z-10" v-if="url"
+           :src="url" alt="banner">
       <Icon v-else name="mdi:account-box-edit-outline"
             class="size-12 text-neutral-500 cursor-pointer hover:text-sky-600 relative z-20"/>
     </label>
