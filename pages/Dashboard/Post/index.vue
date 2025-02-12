@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import PostsComponent from '@/pages/Dashboard/Post/_components/Posts.component.vue';
+import AuthMiddleware from "~/middleware/Auth/auth.middleware";
 
 definePageMeta({
   layout: "dashboard-layout",
+  middleware: [AuthMiddleware],
 });
 useSeoMeta({
   title: "Dashboard - Posts",
+
 })
 </script>
 

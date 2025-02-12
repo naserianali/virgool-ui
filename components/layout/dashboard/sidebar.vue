@@ -18,7 +18,7 @@ watch(() => route.path, (newPath) => {
 
 <template>
   <aside class="flex bg-gray-800 h-full p-4 text-white flex-col gap-8 transition-all duration-200 ease-in-out"
-         :class="!isSidebarOpen ? 'w-1/12' : 'w-2/12'">
+         :class="!isSidebarOpen ? 'w-2/12' : 'w-4/12'">
     <ul>
       <li>
         <p class="flex items-center justify-between">

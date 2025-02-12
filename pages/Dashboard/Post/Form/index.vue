@@ -5,10 +5,12 @@ import MultiSelectInputComponent from "~/components/Forms/MultiSelectInput/Multi
 import {getApiBase, getToken} from "~/composables/Api";
 import {toast} from "vue-sonner";
 import {useBlogStore} from "~/store/blog.store";
+import AuthMiddleware from "~/middleware/Auth/auth.middleware";
 
 definePageMeta({
   title: "Dashboard - Add",
   layout: "dashboard-layout",
+  middleware: [AuthMiddleware]
 });
 useSeoMeta({
   title: "Dashboard - Add"

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import Profile from '@/pages/Dashboard/(index)/_component/Profile.component.vue'
+import AuthMiddleware from "~/middleware/Auth/auth.middleware";
 
 definePageMeta({
   layout: 'dashboard-layout',
   title: 'Dashboard',
+  middleware: [AuthMiddleware],
 });
 useSeoMeta({
   title: "Dashboard",
