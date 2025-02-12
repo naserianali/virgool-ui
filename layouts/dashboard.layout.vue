@@ -3,7 +3,7 @@
 <template>
   <div class="flex h-screen font-vazir" dir="rtl">
     <LayoutDashboardSidebar/>
-    <main class="h-full overflow-y-scroll overflow-x-hidden p-4 grow">
+    <main class="h-full overflow-y-scroll overflow-x-hidden p-4 w-full flex-shrink">
       <slot/>
     </main>
   </div>

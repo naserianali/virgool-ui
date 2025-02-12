@@ -52,7 +52,7 @@ const {profile} = defineProps({
   <div class="size-44 rounded-full overflow-hidden bg-black/20 mx-auto -mt-24 relative z-40 shadow">
     <label v-if="profile" class="flex items-center justify-center h-full cursor-pointer overflow-hidden">
       <img v-if="url || profile.image" class="w-full h-full object-cover"
-           :src="url ? url : 'http://localhost:5000/'+ profile.image"
+           :src="url ? url : profile.image_src"
            alt="Profile">
       <input type="file" accept="image/*" class="hidden" v-on:change="handleImage"/>
     </label>
