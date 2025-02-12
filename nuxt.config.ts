@@ -1,6 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import AuthMiddleware from "~/middleware/Auth/auth.middleware";
-import type {NuxtPage} from "@nuxt/schema";
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -27,7 +25,7 @@ export default defineNuxtConfig({
   icon: {},
   runtimeConfig: {
     public: {
-      apiBase: "http://localhost:5000"
-    }
+      apiBase: "http://192.168.0.189:5000",
+    },
   },
 })
