@@ -70,7 +70,7 @@ const data = await useFetch<IBlogResponse>(`${apiBase}/blog`);
         </div>
         <div class="flex gap-2 text-xs mb-3">
           <p>{{ item.author?.profile?.nickname ?? "اسمی انتخاب نشده!" }}</p>
-          <p>{{item.createdAt}}</p>
+          <p>{{item.createdAt.minutesPassed}}</p>
         </div>
         <div class="flex justify-between mt-8">
           <div class="w-fit">

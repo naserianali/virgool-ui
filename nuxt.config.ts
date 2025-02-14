@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   icon: {},
   runtimeConfig: {
     public: {
-      apiBase: "localhost:5000",
+      apiBase: "http://localhost:5000",
     },
   },
 })
