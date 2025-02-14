@@ -15,7 +15,15 @@ interface ICategory {
 
 interface IBlog {
   id: string;
-  createdAt: string;
+  createdAt: {
+    sh_date: string;
+    ad_date: string;
+    yearName: number;
+    monthName: string;
+    dayName: string;
+    iso: string;
+    minutesPassed: string;
+  };
   title: string;
   slug: string;
   studyTime: string;
@@ -28,7 +36,7 @@ interface IBlog {
     name: string;
     alt: string;
     src: string;
-  }
+  },
 }
 
 interface IPagination {
@@ -50,19 +58,19 @@ const data = await useFetch<IBlogResponse>(`${apiBase}/blog`);
 <template>
   <div class="flex max-w-7xl mx-auto gap-8 mt-10">
     <div class="container w-8/12">
-      <div v-if="data.data.value" class="flex flex-col mb-16" v-for="item in data.data.value.blogs">
-        <div class="flex gap-2 text-xs mb-3">
-          <p>{{ item.author?.profile?.nickname ?? "اسمی انتخاب نشده!" }}</p>
-          <p>13 دقیقه پیش</p>
-        </div>
-        <div class="flex justify-between gap-2">
+      <div v-if="data.data.value" class="flex flex-col mb-16 w-8/12 mx-auto" v-for="item in data.data.value.blogs">
+        <div class="flex flex-col justify-between gap-2">
+          <div class="w-full">
+            <img class="ms-auto object-cover bg-black/5" v-if="item.image" :src="item.image.src" :alt="item.image.alt">
+          </div>
           <div class="flex flex-col">
             <h3 class="font-bold my-1">{{ item.title }}</h3>
             <p class="text-sm mb-3">{{ item.description }}</p>
           </div>
-          <div class="w-6/12">
-            <img  class="size-32 ms-auto object-cover bg-black/5" v-if="item.image" :src="item.image.src" :alt="item.image.alt">
-          </div>
+        </div>
+        <div class="flex gap-2 text-xs mb-3">
+          <p>{{ item.author?.profile?.nickname ?? "اسمی انتخاب نشده!" }}</p>
+          <p>{{item.createdAt}}</p>
         </div>
         <div class="flex justify-between mt-8">
           <div class="w-fit">
